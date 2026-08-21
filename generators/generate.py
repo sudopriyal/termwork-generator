@@ -20,7 +20,8 @@ def generate_termworks_pdf(data_dict):
     temp_dir = TemporaryDirectory()
     temp_path = temp_dir.name
 
-    input_pdf = "generators/template.pdf"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    input_pdf = os.path.join(BASE_DIR, "generators", "template.pdf")
 
 # L: x1-n x2-n
 # R: x1+n x2+n
