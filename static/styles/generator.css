@@ -1,0 +1,24 @@
+.main-content{
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.generate-btn{
+    margin-top: 1rem;
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    display: inline-block;
+    padding: 0.4em 0.7em;
+    text-decoration: none;
+    color: var(--primary);
+    background: none;
+    border-radius: 10px;
+    border: none;
+
+    box-shadow: 0 0px 12px rgba(255, 0, 115, 0.18);
+    transition: all 0.25s ease;
+}
+.generate-btn:hover{
+    transform: translateY(-2px);
+    color: var(--primary-hover);
+    box-shadow: 0 2px 16px rgba(255, 0, 115, 0.25);
+}

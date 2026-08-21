@@ -1,0 +1,74 @@
+.download-btn{
+    font-weight: 500;
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    background: linear-gradient(
+        135deg,
+        #ff0073 0%,
+        #ff287c 45%,
+        #eb3175 70%,
+        #ef2583 100%
+        );
+        
+    color: white;
+    border-radius: 10px;
+    border: 1.5px solid transparent;
+    box-shadow: 0 4px 12px rgba(255, 0, 115, 0.18);
+    transition: all 0.25s ease;
+}
+.download-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 0, 115, 0.25);
+    border: 1.5px solid var(--primary-hover);
+}
+.generate-more-btn{
+    font-weight: 500;
+    text-decoration: none;
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    border-radius: 10px;
+
+    box-shadow: 0 4px 12px rgba(255, 0, 115, 0.18);
+    transition: all 0.25s ease;
+}
+.generate-more-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 0, 115, 0.25);
+    color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.main-content{
+    margin-top: 4em;
+}
+
+.generated-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.display-text{
+    text-align: left;
+}
+
+@media (max-width: 500px) {
+    .generated-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .action-btn {
+        width: min(100%, 300px);
+    }
+}

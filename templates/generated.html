@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block style %}
+
+<link 
+    rel="stylesheet"
+    type="text/css"
+    href="{{url_for('static', filename='styles/generated.css')}}"
+>
+
+{% endblock style %}
+
+{% block main %}
+
+<div class="center">
+
+<div class="display-text">
+
+<h1>{{ practical_count }} Term Work{{ 's' if practical_count > 1 else '' }} Generated!</h1>
+
+<p>
+    {{ subject }} — Semester {{ semester }}
+</p>
+
+<p>
+    {% if practical_count == 1 %}
+    Termwork for {{ practical_count }} practical generated successfully.
+    {% else %}
+    Termworks for {{ practical_count }} practicals generated successfully.
+    {% endif %}
+</p>
+
+</div>
+
+<div class="generated-actions">
+
+    <a
+        href="{{ url_for('download_pdf', file_id=file_id) }}"
+        class="action-btn download-btn"
+    >
+        Download PDF
+    </a>
+
+    <a
+        href="{{ url_for('generate_termworks') }}"
+        class="action-btn generate-more-btn"
+    >
+        Generate More
+    </a>
+
+</div>
+
+</div>
+
+{% endblock main %}

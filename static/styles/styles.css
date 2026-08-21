@@ -1,0 +1,172 @@
+/* Dosis, sans-serif */
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* Montserrat, sans-serif */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* Grand Hotel, sans-serif */
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+:root{
+    --primary: #FF0073; /* pink */
+    --primary-hover: #990045; /* dark pink */
+    --primary-light: #ffe6ed; /* light pink */
+    --accent: #ff6b35;
+}
+.color-primary{
+    color: var(--primary) !important;
+}
+.color-primary-hover{
+    color: var(--primary-hover) !important;
+}
+.color-primary-light{
+    color: var(--primary-light) !important;
+}
+.light-background{
+    background-color: var(--primary-light) !important;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: var(--primary);
+    font-family: Montserrat, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.logo{
+    height: 3.5rem;
+}
+
+nav {
+    padding: 1rem;
+    background-color: var(--primary-light);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.nav-links{
+    display: inline-block;
+    text-decoration: none;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    padding: 0.4rem 0.7rem;
+    border-radius: 10px;
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    transition:
+        transform 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.nav-links:hover{
+    transform: translateY(-2px);
+    color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+main {
+    width: 100%;
+    flex: 1;
+}
+
+.main-content{
+    width: min(90%, 1200px);
+    padding: 70px 0 50px;
+    margin: 0 auto;
+}
+
+.center{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dosis{
+    font-family: Dosis, sans-serif;
+}
+
+.montserrat{
+    font-family: Montserrat, sans-serif;
+}
+
+.grand-hotel{
+    font-family: Grand Hotel, sans-serif;
+}
+
+.bold{
+    font-weight: 500 !important;
+}
+
+footer{
+    flex-shrink: 0;
+    color: var(--primary);
+    background-color: var(--primary-light);
+    padding: 0.5rem;
+    font-weight: 500;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.gradient-text {
+    background: linear-gradient(
+        90deg,
+        #ff0073 0%,
+        #ff3d81 25%,
+        #ff6b35 50%,
+        #ff0073 75%,
+        #d12675 100%
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 600px) {
+
+    nav {
+        padding: 0.75rem;
+    }
+
+    .logo {
+        height: 2.75rem;
+    }
+
+    .nav-actions {
+        margin: 0;
+    }
+
+    .nav-links {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.6rem;
+    }
+
+    .main-content {
+        width: 92%;
+    }
+
+    footer {
+        font-size: 0.75rem;
+        padding: 1rem;
+    }
+}
