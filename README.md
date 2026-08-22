@@ -107,6 +107,6 @@ python app.py
 
 ## Future Improvements
 
-* - **File Input Support** — Allow users to upload a `.txt`, `.docx`, or similar file containing practical titles and automatically extract them into the generator eliminating manual input of titles individually.
+* **File Input Support** — Allow users to upload a `.txt`, `.docx`, or similar file containing practical titles and automatically extract them into the generator eliminating manual input of titles individually.
 * Support multiple subjects and templates.
 * Improve validation and error handling.
