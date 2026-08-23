@@ -20,5 +20,67 @@
 .generate-btn:hover{
     transform: translateY(-2px);
     color: var(--primary-hover);
-    box-shadow: 0 2px 16px rgba(255, 0, 115, 0.25);
+    box-shadow: 0 2px 16px rgba(255, 0, 115, 0.18);
+}
+
+.input-buttons {
+    display: flex;
+    align-items: stretch;
+    background-color: var(--primary);
+    margin: 0;
+    padding: 0;
+}
+
+.manual-input {
+    border-bottom-right-radius: 20px;
+}
+
+.file-input-btn,
+.manual-input-btn {
+    border: none;
+    background: transparent;
+    color: white;
+
+    font-size: clamp(1rem, 2vw, 1rem);
+    padding: 0.7rem 1.5rem;
+
+    cursor: pointer;
+}
+
+
+/* ACTIVE TAB */
+
+.file-input-btn.active,
+.manual-input-btn.active {
+    background-color: white;
+    color: var(--primary);
+    border-radius: 0 15px 0 0;
+}
+
+
+/* FILE TAB */
+
+.file-input-btn.active{
+    border-radius: 0 15px 0 0;
+}
+
+/* MANUAL TAB */
+
+.manual-input-btn.active {
+    border-radius: 15px 15px 0 0;
+}
+
+.input-buttons:has(.file-input-btn.active) .manual-input-btn {
+    border-bottom-left-radius: 15px;
+    background-color: var(--primary);
+}
+.input-buttons:has(.file-input-btn.active) .manual-input {
+    background-color: white;
+}
+.input-buttons:has(.manual-input-btn.active) .file-input-btn {
+    border-bottom-right-radius: 15px;
+    background-color: var(--primary);
+}
+.input-buttons:has(.manual-input-btn.active) .file-input {
+    background-color: white;
 }

@@ -191,66 +191,100 @@
     
     <!-- Practical List -->
     <div class="card shadow-sm mb-4">
+
         <div class="card-header">
             <h4 class="mb-0 color-primary">Practical List</h4>
         </div>
-    
-        <div class="card-body">
-        
-            <h5 class="mb-3">Practical Titles</h5>
-        
-            {% for i in range(1, 11) %}
-            <div class="mb-3">
+
+        <div>
+
+            <div class="input-buttons">
+
+                <div class="file-input">
+                    <button
+                    type="button"
+                    id="file_input_btn"
+                    class="{% if not manual_entry %}active{% endif %} file-input-btn"
+                    >
+                    File Input
+                    </button>
+                </div>
+            
+                <div class="manual-input">
+                    <button
+                        type="button"
+                        id="manual_input_btn"
+                        class="{% if manual_entry %}active{% endif %} manual-input-btn"
+                    >
+                        Manual Input
+                    </button>
+                </div>
+            
+                <input
+                type="hidden"
+                id="manual_entry"
+                name="manual_entry"
+                value="{% if manual_entry %}manual{% else %}file{% endif %}"
+                >
+            
+            </div>
+
+
+            <!-- File Input -->
+            <div class="card-body"> <!-- file and  manual input fields -->
+            <div
+                id="file_input_section"
+                class="{% if manual_entry %}d-none{% endif %} "
+                style="border-top: none;"
+            >
                 <label
-                    for="practical_{{ i }}"
+                    for="practical_file"
                     class="form-label"
                 >
-                    Practical {{ i }}
+                    Upload Practical Titles
+                    <span class="form-text" style="padding-left: 10px;">
+                        Accepted files: .pdf
+                    </span>
                 </label>
-            
+
                 <input
-                    type="text"
+                    type="file"
                     class="form-control"
-                    id="practical_{{ i }}"
-                    name="practical_{{ i }}"
-                    value="{{ practical_dict.get(i|string, '') }}"
-                    placeholder="Enter practical {{ i }} title"
+                    id="practical_file"
+                    name="practical_file"
+                    accept=".pdf"
                 >
+
+                <div class="form-text">
+                    Upload a scanned pdf file of the Index or Practical list containing the practical titles.
+                </div>
+
             </div>
-            {% endfor %}
-        
-            <div class="form-check mt-3">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="add_more"
-                    name="add_more"
-                    value="true"
-                    {% if add_more %}checked{% endif %}
-                >
-            
-                <label
-                    class="form-check-label"
-                    for="add_more"
-                    style="margin-bottom: 1rem;"
-                >
-                    Add more practicals
-                </label>
-            </div>
-        
+
+
+            <!-- Manual Input -->
+
             <div
-                id="additional_practicals"
-                class="{% if not add_more %}d-none{% endif %}"
+                id="manual_input_section"
+                class="{% if not manual_entry %}d-none{% endif %}"
+                style="border-top: none;"
             >
-                {% for i in range(11, 16) %}
+
+                <h5 class="mb-3">
+                    Practical Titles
+                </h5>
+
+                {% for i in range(1, 11) %}
+
                 <div class="mb-3">
+
                     <label
                         for="practical_{{ i }}"
                         class="form-label"
                     >
                         Practical {{ i }}
                     </label>
-                
+
                     <input
                         type="text"
                         class="form-control"
@@ -259,11 +293,71 @@
                         value="{{ practical_dict.get(i|string, '') }}"
                         placeholder="Enter practical {{ i }} title"
                     >
+
                 </div>
+
                 {% endfor %}
+
+
+                <div class="form-check mt-3">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="add_more"
+                        name="add_more"
+                        value="true"
+                        {% if add_more %}checked{% endif %}
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="add_more"
+                        style="margin-bottom: 1rem;"
+                    >
+                        Add more practicals
+                    </label>
+
+                </div>
+
+
+                <div
+                    id="additional_practicals"
+                    class="{% if not add_more %}d-none{% endif %}"
+                >
+
+                    {% for i in range(11, 16) %}
+
+                    <div class="mb-3">
+
+                        <label
+                            for="practical_{{ i }}"
+                            class="form-label"
+                        >
+                            Practical {{ i }}
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="practical_{{ i }}"
+                            name="practical_{{ i }}"
+                            value="{{ practical_dict.get(i|string, '') }}"
+                            placeholder="Enter practical {{ i }} title"
+                        >
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
             </div>
-        
+
         </div>
+        
+    </div>
+
     </div>
     
     

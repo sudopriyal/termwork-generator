@@ -11,3 +11,9 @@ venv/
 
 # Code Runner File
 tempCodeRunnerFile.py
+
+# Generated temporary PDFs
+/generated
+
+# Testing files
+/processors/testing-pdfs

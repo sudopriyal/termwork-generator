@@ -1,8 +1,6 @@
 import pymupdf
 from pypdf import PdfWriter
-from tempfile import TemporaryDirectory
 import os
-
 
 def merge_pdfs(pdf_files, output_path):
 
@@ -15,18 +13,31 @@ def merge_pdfs(pdf_files, output_path):
     merger.close()
 
 
-def generate_termworks_pdf(data_dict):
+def generate_termworks_pdf(data_dict, file_id):
 
-    temp_dir = TemporaryDirectory()
-    temp_path = temp_dir.name
+    BASE_DIR = os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
 
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    input_pdf = os.path.join(BASE_DIR, "generators", "template.pdf")
+    input_pdf = os.path.join(
+        BASE_DIR,
+        "generators",
+        "template.pdf"
+    )
 
-# L: x1-n x2-n
-# R: x1+n x2+n
-# U: y1-n y2-n
-# D: y1+n y2+n
+    generated_dir = os.path.join(
+        BASE_DIR,
+        "generated"
+    )
+
+    os.makedirs(generated_dir, exist_ok=True)
+
+    # L: x1-n x2-n
+    # R: x1+n x2+n
+    # U: y1-n y2-n
+    # D: y1+n y2+n
 
     fields = {
         "term": (503, 219, 542, 235),
@@ -44,48 +55,56 @@ def generate_termworks_pdf(data_dict):
 
     generated_pdfs = []
 
-    for practical_no, data in data_dict.items():
+    try:
 
-        output_pdf = os.path.join(
-            temp_path,
-            f"practical_{practical_no}.pdf"
-        )
+        for practical_no, data in data_dict.items():
 
-        doc = pymupdf.open(input_pdf)
-        page = doc[0]
-
-        for field_name, coords in fields.items():
-
-            rect = pymupdf.Rect(coords)
-            value = str(data[field_name])
-
-            print(f"{field_name}: {value}")
-
-            page.insert_text(
-                (rect.x0, rect.y1 - 3),
-                value,
-                fontsize=11,
-                fontname="helv",
-                color=(0, 0, 0),
+            output_pdf = os.path.join(
+                generated_dir,
+                f"{file_id}_practical_{practical_no}.pdf"
             )
 
-        doc.save(output_pdf)
-        doc.close()
+            doc = pymupdf.open(input_pdf)
 
-        generated_pdfs.append(output_pdf)
+            page = doc[0]
 
-        print("PDF generated:", output_pdf)
+            for field_name, coords in fields.items():
 
-    final_pdf = os.path.join(
-        temp_path,
-        "termwork.pdf"
-    )
+                rect = pymupdf.Rect(coords)
+                value = str(data[field_name])
 
-    merge_pdfs(
-        generated_pdfs,
-        final_pdf
-    )
+                print(f"{field_name}: {value}")
 
-    print("Final PDF generated:", final_pdf)
+                page.insert_text(
+                    (rect.x0, rect.y1 - 3),
+                    value,
+                    fontsize=11,
+                    fontname="helv",
+                    color=(0, 0, 0),
+                )
 
-    return temp_dir, final_pdf
+            doc.save(output_pdf)
+            doc.close()
+
+            generated_pdfs.append(output_pdf)
+
+            print("PDF generated:", output_pdf)
+
+        final_pdf = os.path.join(
+            generated_dir,
+            f"{file_id}_termwork.pdf"
+        )
+
+        merge_pdfs(
+            generated_pdfs,
+            final_pdf
+        )
+
+    finally:
+        # Delete individual practical PDFs
+        for pdf in generated_pdfs:
+            os.remove(pdf)
+
+        print("Final PDF generated:", final_pdf)
+
+        return final_pdf

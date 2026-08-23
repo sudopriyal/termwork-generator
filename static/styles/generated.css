@@ -14,14 +14,12 @@
         
     color: white;
     border-radius: 10px;
-    border: 1.5px solid transparent;
     box-shadow: 0 4px 12px rgba(255, 0, 115, 0.18);
     transition: all 0.25s ease;
 }
 .download-btn:hover{
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(255, 0, 115, 0.25);
-    border: 1.5px solid var(--primary-hover);
 }
 .generate-more-btn{
     font-weight: 500;
@@ -32,17 +30,15 @@
     background-color: white;
 
     color: var(--primary);
-    border: 1.5px solid var(--primary);
     border-radius: 10px;
 
-    box-shadow: 0 4px 12px rgba(255, 0, 115, 0.18);
+    box-shadow: 0 2px 12px rgba(255, 0, 115, 0.18);
     transition: all 0.25s ease;
 }
 .generate-more-btn:hover{
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(255, 0, 115, 0.25);
+    box-shadow: 0 4px 16px rgba(255, 0, 115, 0.25);
     color: var(--primary-hover);
-    border-color: var(--primary-hover);
 }
 
 .main-content{

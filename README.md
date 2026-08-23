@@ -32,20 +32,22 @@ termwork-generator/
 │   ├── generate.py
 |   └── template.pdf
 |
+├── processors/
+│   └── processor.py
+|
 ├── utils/
 |   └── utils.py
 |
 ├── templates/
 │   ├── base.html
 │   ├── index.html
-│   ├── generator.html
-│   └── generated.html
+│   └── ...
 │
 ├── static/
 │   ├── styles/
 │   │   └── styles.css
-│   ├── images/
-│   └── scripts/
+│   ├── images/...
+│   └── scripts/...
 │
 └── ...
 ```
@@ -99,14 +101,17 @@ python app.py
   * Class
   * Semester
   * Subject
-* Enter the titles of only those Practicals you want to include.
+* Upload a PDF file containing Practicals serial number followed by the corresponding title in legible font ( Practical List / Index are viable ) OR
+* Manually enter the titles of only those Practicals you want to include.
 * The application then automatically fills the termwork PDF template (for RNGPIT only).
-* Generate termwork for multiple practicals at once, one pdf per termwork.
-* Merge generated PDFs into a single downloadable PDF which is saved in a temporary dir.
-* Simple and responsive web interface.
+* It then generates termworks for multiple practicals at once, one pdf per termwork.
+* Merges generated PDFs into a single downloadable PDF file that can be downloaded from the download page.
 
 ## Future Improvements
 
-* - **File Input Support** — Allow users to upload a `.txt`, `.docx`, or similar file containing practical titles and automatically extract them into the generator eliminating manual input of titles individually.
-* Support multiple subjects and templates.
+* Support multiple templates.
 * Improve validation and error handling.
+
+## Implemented improvements
+
+* **File Input Support** — Allow users to upload a PDF file containing practical titles and automatically extract them into the generator eliminating manual input of titles individually.

@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, send_file
 from utils.utils import split_practical_title, create_filename
 from generators.generate import generate_termworks_pdf
+from processors.processor import extract_titles_from_pdf
 import uuid
 
 app = Flask(__name__)
 app.secret_key = "dev-secret-key"
+
+ALLOWED_EXTENSIONS = {"pdf"}
 
 generated_files = {}
 
@@ -14,8 +17,16 @@ def homepage():
        "index.html"
     )
 
+def allowed_file(filename):
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+    )
+
 @app.route("/generate-termworks", methods=["GET", "POST"])
 def generate_termworks():
+
+    manual_entry=False
 
     if request.method == "POST":
 
@@ -34,15 +45,10 @@ def generate_termworks():
             if (title := request.form.get(f"practical_{i}", "").strip())
         }
 
+        manual_entry = request.form.get("manual_entry") == "manual"
         add_more = request.form.get("add_more") == "true"
 
-        # print("\n========== FORM DATA ==========")
-        # print(request.form)
-        # print("\n========== PRACTICAL DICT ==========")
-        # print(practical_dict)
-        # print("\n========== CHECKBOXES ==========")
-        # print("add_more:", add_more)
-        # print("================================\n")
+        practical_file = request.files.get("practical_file")
 
         if not subject:
             flash("Please enter the subject name.", "danger")
@@ -58,6 +64,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if not pen:
@@ -74,6 +81,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if not student_name:
@@ -90,6 +98,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if not class_name:
@@ -106,6 +115,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if not term:
@@ -122,6 +132,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if not semester:
@@ -138,6 +149,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if not batch:
@@ -154,6 +166,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if not faculty_name:
@@ -170,6 +183,7 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
         if semester not in {"1", "2", "3", "4", "5", "6", "7", "8"}:
@@ -186,32 +200,102 @@ def generate_termworks():
                 faculty_name=faculty_name,
                 practical_dict=practical_dict,
                 add_more=add_more,
+                manual_entry=manual_entry,
             )
 
-        if not practical_dict:
-            flash(
-                "Please enter at least one of the practical titles.",
-                "danger"
-            )
+        if manual_entry:
+            if not practical_dict:
+                flash(
+                    "Please enter at least one of the practical titles.",
+                    "danger"
+                )
+                return render_template(
+                    "generator.html",
+                    subject=subject,
+                    pen=pen,
+                    student_name=student_name,
+                    class_name=class_name,
+                    term=term,
+                    semester=semester,
+                    batch=batch,
+                    faculty_name=faculty_name,
+                    practical_dict=practical_dict,
+                    add_more=add_more,
+                    manual_entry=manual_entry,
+                )
 
-            return render_template(
-                "generator.html",
-                subject=subject,
-                pen=pen,
-                student_name=student_name,
-                class_name=class_name,
-                term=term,
-                semester=semester,
-                batch=batch,
-                faculty_name=faculty_name,
-                practical_dict=practical_dict,
-                add_more=add_more,
-            )
+        else:
+            if not practical_file or not practical_file.filename:
+                flash(
+                    "Please upload a PDF containing the practical titles.",
+                    "danger"
+                )
+                return render_template(
+                    "generator.html",
+                    subject=subject,
+                    pen=pen,
+                    student_name=student_name,
+                    class_name=class_name,
+                    term=term,
+                    semester=semester,
+                    batch=batch,
+                    faculty_name=faculty_name,
+                    practical_dict=practical_dict,
+                    add_more=add_more,
+                    manual_entry=manual_entry,
+                )
+
+            if not allowed_file(practical_file.filename):
+                flash(
+                    "Please upload a PDF file.",
+                    "danger"
+                )
+                return render_template(
+                    "generator.html",
+                    subject=subject,
+                    pen=pen,
+                    student_name=student_name,
+                    class_name=class_name,
+                    term=term,
+                    semester=semester,
+                    batch=batch,
+                    faculty_name=faculty_name,
+                    practical_dict=practical_dict,
+                    add_more=add_more,
+                    manual_entry=manual_entry,
+                )
+
+            titles = extract_titles_from_pdf(practical_file)
+
+            if not titles:
+                flash(
+                    "No practical titles could be found in the uploaded PDF.",
+                    "danger"
+                )
+                return render_template(
+                    "generator.html",
+                    subject=subject,
+                    pen=pen,
+                    student_name=student_name,
+                    class_name=class_name,
+                    term=term,
+                    semester=semester,
+                    batch=batch,
+                    faculty_name=faculty_name,
+                    practical_dict={},
+                    add_more=add_more,
+                    manual_entry=manual_entry,
+                )
+
+            practical_dict = {
+                str(i): title
+                for i, title in enumerate(titles, start=1)
+            }
 
         data_dict = {}
 
         for practical_no, title in practical_dict.items():
-
+        
             first_part, last_part = split_practical_title(title)
 
             data_dict[practical_no] = {
@@ -228,14 +312,13 @@ def generate_termworks():
                 "faculty_name": faculty_name,
             }
 
-        temp_dir, final_pdf = generate_termworks_pdf(data_dict)
-
         file_id = str(uuid.uuid4())
+
+        final_pdf = generate_termworks_pdf(data_dict, file_id)
 
         filename = create_filename(subject, semester, pen)
 
         generated_files[file_id] = {
-            "temp_dir": temp_dir,
             "pdf_path": final_pdf,
             "filename": filename
         }
@@ -261,6 +344,7 @@ def generate_termworks():
         faculty_name="",
         practical_dict={},
         add_more=False,
+        manual_entry=False,
     )
 
 @app.route("/download/<file_id>")
@@ -280,7 +364,6 @@ def download_pdf(file_id):
     )
 
     def cleanup():
-        file_data["temp_dir"].cleanup()
         generated_files.pop(file_id, None)
 
     response.call_on_close(cleanup)

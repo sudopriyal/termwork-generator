@@ -36,6 +36,18 @@ body {
 
     display: flex;
     flex-direction: column;
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255, 190, 220, 0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(180, 200, 255, 0.18),
+            transparent 30%
+        ),
+        #f7f7f9;
 }
 
 .logo{
