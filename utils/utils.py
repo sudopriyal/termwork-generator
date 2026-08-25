@@ -18,17 +18,27 @@ def create_filename(subject, semester, pen):
 
     return f"{subject}_Sem{semester}_{pen}_Termwork.pdf"
 
-def split_practical_title(title, max_chars=40):
+def split_practical_title(title, max_chars_first=40, max_chars_second=60):
 
-    if len(title) <= max_chars:
+    if len(title) <= max_chars_first:
         return [title, ""]
 
-    split_position = title.rfind(" ", 0, max_chars + 1)
+    split_position = title.rfind(" ", 0, max_chars_first + 1)
 
     if split_position == -1:
-        split_position = max_chars
+        split_position = max_chars_first
 
     first_part = title[:split_position].strip()
-    last_part = title[split_position:].strip()
+    remaining = title[split_position:].strip()
 
-    return [first_part, last_part]
+    if len(remaining) > max_chars_second:
+        second_part = remaining[:max_chars_second].strip()
+
+        second_split = second_part.rfind(" ")
+
+        if second_split != -1:
+            second_part = second_part[:second_split].strip()
+    else:
+        second_part = remaining
+
+    return [first_part, second_part]
