@@ -1,16 +1,16 @@
 import pymupdf
-from pypdf import PdfWriter
 import os
 
 def merge_pdfs(pdf_files, output_path):
+    merged_doc = pymupdf.open()
 
-    merger = PdfWriter()
+    for pdf_file in pdf_files:
+        doc = pymupdf.open(pdf_file)
+        merged_doc.insert_pdf(doc)
+        doc.close()
 
-    for pdf in pdf_files:
-        merger.append(pdf)
-
-    merger.write(output_path)
-    merger.close()
+    merged_doc.save(output_path)
+    merged_doc.close()
 
 
 def generate_termworks_pdf(data_dict, file_id):
