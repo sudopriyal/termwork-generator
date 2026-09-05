@@ -107,4 +107,4 @@ def generate_termworks_pdf(data_dict, file_id):
 
         print("Final PDF generated:", final_pdf)
 
-        return final_pdf
+    return final_pdf
